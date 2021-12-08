@@ -1,6 +1,6 @@
 {
   "name": "@orderingstack/ordering-core-react",
-  "version": "0.2.8",
+  "version": "0.3.0",
   "description": "Ordering Stack client core react library",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -15,7 +15,9 @@
   "author": "kolec",
   "license": "Ordering Stack license",
   "dependencies": {
-    "@orderingstack/ordering-core": "^0.1.15",
+    "@orderingstack/ordering-core": "^0.2.0"
+  },
+  "peerDependencies": {
     "axios": "^0.21.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.0",
