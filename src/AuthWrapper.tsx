@@ -93,6 +93,15 @@ export default function AuthWrapper(props: any) {
         refreshStorageHandler,
         false
       );
+    try {
+      const refreshToken = new URLSearchParams(window.location.search).get("refreshToken")
+      if (refreshToken) {
+        refreshStorageHandler.setRefreshToken(config.tenant, refreshToken)
+      }
+    } catch(e){
+      console.warn(e)
+    }
+
     getUserData(config.baseUrl, authProvider, setAuth);
 
     window.addEventListener("message", function (event) {
