@@ -12,7 +12,7 @@ export default function OrderWrapper(props: any) {
   const config: IConfig = _configContext;
 
   const [orders, setOrders] = useState<any>({});
-  const { authProvider } = useContext(AuthContext);
+  const { authProvider } = useContext(props.authContext || AuthContext);
 
   const onOrdersUpdated = (order: any, allOrders: any) => {
     //console.log("--------------" + Object.keys(allOrders).length);
