@@ -1,18 +1,17 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
 import ConfigContext, { IConfig } from "./ConfigContext";
 
-export default function Config(props:any) {
-  const conf: IConfig = props.data;
-  return (
+export interface ConfigProps {
+  data: IConfig,
+  children: React.ReactNode
+}
+
+export default function Config({data, children}:ConfigProps) {
+    return (
     <Fragment>
-      <ConfigContext.Provider value={conf}>
-        {props.children}
+      <ConfigContext.Provider value={data}>
+        {children}
       </ConfigContext.Provider>
     </Fragment>
   );
 }
-
-// Config.propTypes = {
-//   data: PropTypes.any
-// };

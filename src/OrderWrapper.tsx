@@ -7,12 +7,12 @@ import * as orderingCore from "@orderingstack/ordering-core";
 export default function OrderWrapper(props: any) {
   const _configContext = useContext(ConfigContext);
   if (!_configContext) {
-    return (<Fragment>Configuration shoud be provided</Fragment>)
+    return (<Fragment>Configuration should be provided</Fragment>)
   }
   const config: IConfig = _configContext;
 
   const [orders, setOrders] = useState<any>({});
-  const { authProvider } = useContext(props.authContext || AuthContext);
+  const { authProvider, loggedIn } = useContext(props.authContext || AuthContext);
 
   const onOrdersUpdated = (order: any, allOrders: any) => {
     //console.log("--------------" + Object.keys(allOrders).length);
@@ -45,7 +45,7 @@ export default function OrderWrapper(props: any) {
   useEffect(() => {
     orderingCore.setOrderStoreUpdatedCallback(onOrdersUpdated);
     setOrderChangesListener(authProvider);
-  }, []);
+  }, [loggedIn]);
 
   return (
     <Fragment>
