@@ -677,15 +677,20 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@orderingstack/ordering-core@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@orderingstack/ordering-core/-/ordering-core-0.2.0.tgz#169305f7885b3498271a73fa7dc03c1d38a65003"
-  integrity sha512-nLKZ7xaLaNZ6/i4x9F0U5eMmKBJA1IorzoRzik9RjPIRxxiFoWh6+25dAj5YqFd40Zoh3DkKF/HQYXUGnJ1ZBw==
+"@orderingstack/ordering-core@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@orderingstack/ordering-core/-/ordering-core-1.1.0.tgz#68413eae67e5a4e1a80a9b85fa833b68bf557598"
+  integrity sha512-sZjDtkFDXW6zUcjp5aiFWdUWgGvWOSnniNSyGDGfaVpKm1aFZSoVNRVlHtOMcXanPTNMz7KBbooeq+oe0rly5Q==
   dependencies:
     "@stomp/stompjs" "6.1.0"
     axios "^0.21.1"
     text-encoding "^0.7.0"
     ws "^7.3.1"
+
+"@orderingstack/ordering-types@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@orderingstack/ordering-types/-/ordering-types-1.6.0.tgz#0e1a1fb01856533a5d55b55e5e016c7d811f28d3"
+  integrity sha512-Bx33U3ESrfxzG+pll7U5PYiCdNU9YrRNep3WSVWNIQD+2HPUO6Sq6CerjVTPuWnaxHS+WuJBYevNHLcwFHNsxA==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.2"
@@ -2843,10 +2848,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^4.1.5:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.1.5.tgz#123a3b214aaff3be32926f0d8f1f6e704eb89a72"
-  integrity sha512-6OSu9PTIzmn9TCDiovULTnET6BgXtDYL4Gg4szY+cGsc3JP1dQL8qvE8kShTRx1NIw4Q9IBHlwODjkjWEtMUyA==
+typescript@>=4.1.5:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.0.4.tgz#b217fd20119bd61a94d4011274e0ab369058da3b"
+  integrity sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==
 
 universalify@^0.1.2:
   version "0.1.2"

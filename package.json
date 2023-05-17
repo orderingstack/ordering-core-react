@@ -1,6 +1,6 @@
 {
   "name": "@orderingstack/ordering-core-react",
-  "version": "0.4.0",
+  "version": "2.0.0",
   "description": "Ordering Stack client core react library",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -9,19 +9,20 @@
     "lib/"
   ],
   "scripts": {
-    "tsc": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
-    "test": "jest"
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
   },
   "author": "kolec",
   "license": "Ordering Stack license",
   "dependencies": {
-    "@orderingstack/ordering-core": "latest"
+    "@orderingstack/ordering-core": "^1.1.0",
+    "@orderingstack/ordering-types": "^1.6.0"
   },
   "peerDependencies": {
-    "axios": "^0.21.1",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "axios": ">=0.21.1",
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
@@ -32,6 +33,6 @@
     "ts-jest": "^26.5.1",
     "ts-node": "^9.1.1",
     "tslint": "^6.1.3",
-    "typescript": "^4.1.5"
+    "typescript": ">=4.1.5"
   }
 }

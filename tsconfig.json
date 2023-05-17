@@ -8,7 +8,8 @@
     "esModuleInterop": true,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./lib/esm", 
+    "outDir": "./lib/esm",
+    "skipLibCheck": true
   },
   "include": [
     "./src"

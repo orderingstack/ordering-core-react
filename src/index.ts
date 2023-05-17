@@ -2,8 +2,8 @@ import ConfigContext, { IConfig } from './ConfigContext';
 import Config from './Config';
 import AuthContext from './AuthContext';
 import OrdersContext from './OrdersContext';
-import AuthWrapper, {ShowWhenAuthenticated, ShowWhenNotAuthenticated} from './AuthWrapper';
-import OrderWrapper from './OrderWrapper';
+import AuthWrapper, { ShowWhenAuthenticated, ShowWhenNotAuthenticated, ShowWhenAuthenticating, ShowWhenNotAuthenticatedAnResolved } from './AuthWrapper';
+import OrderProvider from './OrderProvider';
 import SignIn from './SignIn';
 import SignOut from './SignOut';
 
@@ -14,9 +14,11 @@ export {
   AuthContext,
   OrdersContext,
   AuthWrapper,
-  OrderWrapper,
+  OrderProvider,
   SignIn,
   SignOut,
   ShowWhenAuthenticated,
-  ShowWhenNotAuthenticated
+  ShowWhenNotAuthenticated,
+  ShowWhenNotAuthenticatedAnResolved,
+  ShowWhenAuthenticating
 };

@@ -1,10 +1,16 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, ReactNode, useContext, useEffect, useState } from 'react';
 import AuthContext from "./AuthContext";
 import OrdersContext from "./OrdersContext";
 import ConfigContext, { IConfig } from "./ConfigContext";
 import * as orderingCore from "@orderingstack/ordering-core";
+import { INotificationMessage } from '@orderingstack/ordering-types';
 
-export default function OrderWrapper(props: any) {
+export interface OrderProviderProps {
+  children: ReactNode;
+  onWebsocketNotification?: (message:INotificationMessage) => void;
+}
+
+export default function OrderProvider(props: OrderProviderProps) {
   const _configContext = useContext(ConfigContext);
   if (!_configContext) {
     return (<Fragment>Configuration should be provided</Fragment>)
@@ -12,7 +18,7 @@ export default function OrderWrapper(props: any) {
   const config: IConfig = _configContext;
 
   const [orders, setOrders] = useState<any>({});
-  const { authProvider, loggedIn } = useContext(props.authContext || AuthContext);
+  const { authProvider, loggedIn } = useContext( AuthContext);
 
   const onOrdersUpdated = (order: any, allOrders: any) => {
     //console.log("--------------" + Object.keys(allOrders).length);
@@ -34,7 +40,8 @@ export default function OrderWrapper(props: any) {
           () => {
             setOrders({});
           },
-          config.enableKDS
+          config.enableKDS,
+          props.onWebsocketNotification
         );
       }
     } catch (err) {

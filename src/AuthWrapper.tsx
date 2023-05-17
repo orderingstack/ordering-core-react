@@ -36,9 +36,12 @@ export default function AuthWrapper(props: any) {
     UUID: "",
   });
 
+  const [resolved, setResolved] = useState<boolean>(false)
+
   function onSignOut() {
     console.log("--- log out ----");
-    setAuth({ loggedIn: false, UUID: "" });
+    setAuth({ loggedIn: false, UUID: ""});
+    setResolved(true);
     orderingCore.clearAuthData(config.tenant, refreshStorageHandler);
   }
 
@@ -78,6 +81,7 @@ export default function AuthWrapper(props: any) {
     } catch (err) {
       onSignOut();
     }
+    setResolved(true);
   }
 
   useEffect(() => {
@@ -93,10 +97,18 @@ export default function AuthWrapper(props: any) {
         refreshStorageHandler,
         false
       );
+
+    // Check for refreshToken in search params
     try {
-      const refreshToken = new URLSearchParams(window.location.search).get("refreshToken")
+      const params = new URLSearchParams(window.location.search)
+      const refreshToken = params.get("refreshToken")
       if (refreshToken) {
         refreshStorageHandler.setRefreshToken(config.tenant, refreshToken)
+
+        // Remove refresh token from search params
+        params.delete("refreshToken")
+        const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`
+        window.history.replaceState(null, "", url)
       }
     } catch(e){
       console.warn(e)
@@ -125,7 +137,7 @@ export default function AuthWrapper(props: any) {
           loggedIn: true,
           UUID: authData.UUID,
           authProvider: authProvider,
-          signOut: onSignOut,
+          signOut: onSignOut
         });
         getUserData(config.baseUrl, authProvider, setAuth);
       }
@@ -134,7 +146,7 @@ export default function AuthWrapper(props: any) {
 
   return (
     <Fragment>
-      <AuthContext.Provider value={auth}>{props.children}</AuthContext.Provider>
+      <AuthContext.Provider value={{ ...auth, resolved }}>{props.children}</AuthContext.Provider>
     </Fragment>
   );
 }
@@ -149,3 +161,12 @@ export function ShowWhenNotAuthenticated(props: any) {
   return !loggedIn ? <Fragment>{props.children}</Fragment> : null;
 }
 
+export function ShowWhenNotAuthenticatedAnResolved(props: any) {
+  const { loggedIn, resolved } = useContext(AuthContext);
+  return !loggedIn && resolved ? <Fragment>{props.children}</Fragment> : null;
+}
+
+export function ShowWhenAuthenticating(props: any) {
+  const { resolved } = useContext(AuthContext);
+  return !resolved ? <Fragment>{props.children}</Fragment> : null;
+}
