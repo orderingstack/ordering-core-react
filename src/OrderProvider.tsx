@@ -3,12 +3,12 @@ import AuthContext from "./AuthContext";
 import OrdersContext from "./OrdersContext";
 import ConfigContext, { IConfig } from "./ConfigContext";
 import * as orderingCore from "@orderingstack/ordering-core";
-import { INotificationMessage } from '@orderingstack/ordering-types';
+import { INotificationMessage, ISteeringCommand } from '@orderingstack/ordering-types';
 
 export interface OrderProviderProps {
   children: ReactNode;
   onWebsocketNotification?: (message:INotificationMessage) => void;
-}
+  onSteeringCommand?: (command: ISteeringCommand) => void;}
 
 export default function OrderProvider(props: OrderProviderProps) {
   const _configContext = useContext(ConfigContext);
@@ -41,7 +41,8 @@ export default function OrderProvider(props: OrderProviderProps) {
             setOrders({});
           },
           config.enableKDS,
-          props.onWebsocketNotification
+          props.onWebsocketNotification,
+          props.onSteeringCommand
         );
       }
     } catch (err) {
