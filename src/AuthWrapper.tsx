@@ -11,7 +11,32 @@ import ConfigContext, { IConfig } from './ConfigContext';
 import * as orderingCore from '@orderingstack/ordering-core';
 import axios from 'axios';
 import { getErrorMessage } from './utils';
+import { QRCodeSVG } from 'qrcode.react';
+import { FadeLoader } from 'react-spinners';
 const COUNTDOWN = 10;
+
+function Loader() {
+  return <FadeLoader />;
+}
+
+function QRLoader({ size }: { size: number }) {
+  const height = Math.min(size / 10, 25);
+  const width = Math.min(size / 30, 5);
+  const radius = Math.min(height, width) / 2;
+  return (
+    <div
+      style={{
+        width: size,
+        height: size,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <FadeLoader height={height} width={width} radius={radius} />
+    </div>
+  );
+}
 
 const _refreshStorageHandler: orderingCore.IRefreshTokenStorageHandler = {
   getRefreshToken: (tenant: string) => {
@@ -28,7 +53,40 @@ const _refreshStorageHandler: orderingCore.IRefreshTokenStorageHandler = {
 };
 
 function DefaultDeviceCodeComp(props: IDeviceLoginState) {
-  const { code, error, countDown } = props;
+  const {
+    code,
+    error,
+    countDown,
+    tenant,
+    baseUrl,
+    user,
+    loading,
+    codeTimestamp,
+  } = props;
+  const qrCode = useMemo(() => {
+    let qrCode = code
+      ? `${baseUrl}/user-service/device-code/${tenant}?code=${code}`
+      : undefined;
+    if (user && qrCode) {
+      qrCode = qrCode + `&deviceUser=${user}`;
+    }
+    return qrCode;
+  }, [code, baseUrl, user]);
+
+  const size = Math.round(Math.min(window.innerHeight, window.innerWidth) / 3);
+  const [seconds, setSeconds] = useState<number>(0);
+
+  useEffect(() => {
+    if (code && codeTimestamp) {
+      const timer = setInterval(
+        () => setSeconds(Math.round((Date.now() - codeTimestamp) / 1000)),
+        1000,
+      );
+      return () => clearInterval(timer);
+    } else {
+      setSeconds(0);
+    }
+  }, [code, codeTimestamp]);
 
   return (
     <div
@@ -46,11 +104,30 @@ function DefaultDeviceCodeComp(props: IDeviceLoginState) {
       <div
         style={{
           textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
-        <h1>Please confirm your device code</h1>
-        {code && <h1>Device code: {code}</h1>}
-        {error && <h1>Error: {error}</h1>}
+        <h1>Please authorize this device</h1>
+        {code && (
+          <h1 style={{ display: 'flex', flexDirection: 'row' }}>
+            Device code: {!loading ? code : ''}
+            {loading && (
+              <div style={{ display: 'flex', flexDirection: 'row' }}>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <Loader />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
+            )}
+          </h1>
+        )}
+        {code && <h4>Refreshed: {seconds}s ago</h4>}
+        {qrCode && !loading && (
+          <QRCodeSVG value={qrCode} size={size} level="H" />
+        )}
+        {loading && <QRLoader size={size} />}
+        {error && <h1 style={{ color: 'red' }}>Error: {error}</h1>}
         {countDown && <h1>Automatically restarting in {countDown} seconds</h1>}
       </div>
     </div>
@@ -67,9 +144,11 @@ interface AuthWrapperStateStruct {
 
 export interface IAuthProps {
   roles?: string[];
+  disallowedRoles?: RegExp[];
   children: React.ReactNode;
   refreshStorageHandler?: orderingCore.IRefreshTokenStorageHandler;
   DeviceCodeComp?: React.FC<IDeviceLoginState>;
+  DisallowedRolesComp?: React.FC<any>;
 }
 
 export interface IDeviceLoginState {
@@ -78,11 +157,20 @@ export interface IDeviceLoginState {
   secret?: string;
   error?: string;
   countDown?: number;
+  tenant: string;
+  baseUrl: string;
+  user?: string | null;
+  codeTimestamp?: number;
+  loading?: boolean;
 }
 type Action =
   | { type: 'enable'; payload?: undefined }
+  | { type: 'loading'; payload?: undefined }
   | { type: 'disable'; payload?: undefined }
-  | { type: 'setValues'; payload: { code: string; secret: string } }
+  | {
+      type: 'setValues';
+      payload: { code: string; secret: string; user?: string | null };
+    }
   | { type: 'error'; payload: string }
   | { type: 'decrementCountDown'; payload?: undefined };
 
@@ -113,13 +201,22 @@ function deviceLoginReducer(
         ...state,
         isDeviceCode: true,
       };
+    case 'loading':
+      return {
+        ...state,
+        isDeviceCode: true,
+        loading: true,
+      };
     case 'setValues':
       return {
         ...state,
         code: payload.code,
         secret: payload.secret,
+        user: payload.user,
         error: undefined,
         countDown: undefined,
+        codeTimestamp: Date.now(),
+        loading: false,
       };
     case 'error':
       return {
@@ -134,11 +231,47 @@ function deviceLoginReducer(
       };
     case 'disable':
       return {
+        tenant: state.tenant,
         isDeviceCode: false,
+        baseUrl: state.baseUrl,
+        user: state.user,
       };
     default:
       return state;
   }
+}
+
+function hasValidRoles({
+  acceptedRolesArray,
+  roles,
+}: {
+  acceptedRolesArray?: string[];
+  roles: any[];
+}): boolean {
+  if (!acceptedRolesArray || acceptedRolesArray.length === 0) {
+    return true;
+  }
+  const authorities: string[] = roles.map((r) => r.role);
+  const rolesIntersection = acceptedRolesArray.filter((value) =>
+    authorities.includes(value),
+  );
+  const isAuthorized = rolesIntersection.length > 0; //authorities.includes(role);
+  return isAuthorized;
+}
+
+function checkDisallowedRoles({
+  roles,
+  disallowedRoles,
+}: {
+  roles: Array<{ role: string }>;
+  disallowedRoles?: RegExp[];
+}): string[] {
+  if (!disallowedRoles || disallowedRoles.length === 0) {
+    return [];
+  }
+  return roles
+    .map((r) => r.role)
+    .filter((role) => disallowedRoles.some((regExp) => regExp.test(role)));
 }
 
 export default function AuthWrapper(props: IAuthProps) {
@@ -159,31 +292,16 @@ export default function AuthWrapper(props: IAuthProps) {
   const [resolved, setResolved] = useState<boolean>(false);
   const [state, dispatch] = useReducer(deviceLoginReducer, {
     isDeviceCode: false,
+    tenant: tenant,
+    baseUrl: baseUrl,
   });
+  const [disallowedRoles, setDisallowedRoles] = useState<string[] | null>(null);
 
   function onSignOut() {
     console.log('--- log out ----');
     setAuth({ loggedIn: false, UUID: '' });
     setResolved(true);
     orderingCore.clearAuthData(config.tenant, refreshStorageHandler);
-  }
-
-  function hasValidRoles({
-    acceptedRolesArray,
-    roles,
-  }: {
-    acceptedRolesArray?: string[];
-    roles: any[];
-  }): boolean {
-    if (!acceptedRolesArray || acceptedRolesArray.length === 0) {
-      return true;
-    }
-    const authorities: string[] = roles.map((r) => r.role);
-    const rolesIntersection = acceptedRolesArray.filter((value) =>
-      authorities.includes(value),
-    );
-    const isAuthorized = rolesIntersection.length > 0; //authorities.includes(role);
-    return isAuthorized;
   }
 
   async function getUserData(
@@ -202,9 +320,36 @@ export default function AuthWrapper(props: IAuthProps) {
             roles: userData.roles,
           })
         ) {
-          console.log('--- USER HAS NO REQUIRED ROLES ----- ');
+          console.warn('--- USER HAS NO REQUIRED ROLES ----- ');
           onSignOut();
+          setResolved(true);
+          alert('User has no required roles');
+          return false;
         }
+        if (
+          checkDisallowedRoles({
+            roles: userData.roles,
+            disallowedRoles: props.disallowedRoles,
+          }).length
+        ) {
+          console.warn(
+            '--- USER HAS DISALLOWED ROLES ----- ',
+            checkDisallowedRoles({
+              roles: userData.roles,
+              disallowedRoles: props.disallowedRoles,
+            }),
+          );
+          onSignOut();
+          setResolved(true);
+          setDisallowedRoles(
+            checkDisallowedRoles({
+              roles: userData.roles,
+              disallowedRoles: props.disallowedRoles,
+            }),
+          );
+          return false;
+        }
+
         setAuth({
           loggedIn: true,
           email: userData.login,
@@ -228,9 +373,10 @@ export default function AuthWrapper(props: IAuthProps) {
     dispatch({ type: 'enable' });
     while (true) {
       try {
+        dispatch({ type: 'loading' });
         // Get code
         const {
-          data: { code, secret },
+          data: { code, secret, user },
         } = await api.get<{
           code: string;
           secret: string;
@@ -243,8 +389,7 @@ export default function AuthWrapper(props: IAuthProps) {
             tenant,
           },
         });
-        console.log('code', code, 'secret', secret);
-        dispatch({ type: 'setValues', payload: { code, secret } });
+        dispatch({ type: 'setValues', payload: { code, secret, user } });
 
         // Await code verification, timeout or error
         const { data } = await api.post<SuccessData | ErrorData>(
@@ -359,6 +504,12 @@ export default function AuthWrapper(props: IAuthProps) {
     return <DeviceCodeComp {...state} />;
   }
 
+  if (disallowedRoles?.length) {
+    const DisallowedRolesComp =
+      props.DisallowedRolesComp || DefaultDisallowedRolesComp;
+    return <DisallowedRolesComp />;
+  }
+
   return (
     <Fragment>
       <AuthContext.Provider value={{ ...auth, resolved }}>
@@ -386,4 +537,32 @@ export function ShowWhenNotAuthenticatedAnResolved(props: any) {
 export function ShowWhenAuthenticating(props: any) {
   const { resolved } = useContext(AuthContext);
   return !resolved ? <Fragment>{props.children}</Fragment> : null;
+}
+
+function DefaultDisallowedRolesComp() {
+  return (
+    <div
+      style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '2vw',
+        backgroundColor: 'white',
+      }}
+    >
+      <div
+        style={{
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <h1>Auth error 101. Contact support</h1>
+      </div>
+    </div>
+  );
 }
