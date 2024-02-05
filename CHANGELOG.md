@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 incorrect language first kiosk start #104655
 
+## [2.4.0] - 2024-02-05
+- Features:
+  - Check for disallowed user roles
+
+## [2.3.3] - 2023-11-16
+- Features:
+  - Device code login
+  - Device code QR code with deviceUser
+
+## [2.3.2] - 2023-11-15
+- Features:
+  - Device code login
+  - Device code QR code
+
 ## [2.2.1] - 2023-11-03
 - Security:
   - websocket disconnect on logout
