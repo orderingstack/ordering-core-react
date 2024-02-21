@@ -13,11 +13,14 @@ import {
   INotificationMessage,
   ISteeringCommand,
 } from '@orderingstack/ordering-types';
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 
 export interface OrderProviderProps {
   children: ReactNode;
   onWebsocketNotification?: (message: INotificationMessage) => void;
   onSteeringCommand?: (command: ISteeringCommand) => void;
+  appInsights?: ApplicationInsights;
+  debugWs?: boolean;
 }
 
 export default function OrderProvider(props: OrderProviderProps) {
@@ -56,6 +59,7 @@ export default function OrderProvider(props: OrderProviderProps) {
           config.enableKDS,
           props.onWebsocketNotification,
           props.onSteeringCommand,
+          { appInsights: props.appInsights, debugWs: props.debugWs },
         );
       }
     } catch (err) {
