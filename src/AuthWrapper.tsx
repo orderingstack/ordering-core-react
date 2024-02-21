@@ -14,6 +14,7 @@ import { getErrorMessage } from './utils';
 import { QRCodeSVG } from 'qrcode.react';
 import { FadeLoader } from 'react-spinners';
 const COUNTDOWN = 10;
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 
 function Loader() {
   return <FadeLoader />;
@@ -145,6 +146,8 @@ interface AuthWrapperStateStruct {
 export interface IAuthProps {
   roles?: string[];
   disallowedRoles?: RegExp[];
+  logoutOnDisallowedRoles?: boolean;
+  appInsights?: ApplicationInsights;
   children: React.ReactNode;
   refreshStorageHandler?: orderingCore.IRefreshTokenStorageHandler;
   DeviceCodeComp?: React.FC<IDeviceLoginState>;
@@ -326,28 +329,30 @@ export default function AuthWrapper(props: IAuthProps) {
           alert('User has no required roles');
           return false;
         }
-        if (
-          checkDisallowedRoles({
-            roles: userData.roles,
-            disallowedRoles: props.disallowedRoles,
-          }).length
-        ) {
+        const userDisallowedRoles = checkDisallowedRoles({
+          roles: userData.roles,
+          disallowedRoles: props.disallowedRoles,
+        });
+        if (userDisallowedRoles.length) {
           console.warn(
             '--- USER HAS DISALLOWED ROLES ----- ',
-            checkDisallowedRoles({
-              roles: userData.roles,
-              disallowedRoles: props.disallowedRoles,
-            }),
+            userDisallowedRoles,
           );
-          onSignOut();
-          setResolved(true);
-          setDisallowedRoles(
-            checkDisallowedRoles({
+          props.appInsights?.trackTrace({
+            message: 'Front user has disallowed roles',
+            severityLevel: 2, // Warning
+            properties: {
+              uuid: UUID,
               roles: userData.roles,
-              disallowedRoles: props.disallowedRoles,
-            }),
-          );
-          return false;
+              userDisallowedRoles,
+            },
+          });
+          if (props.logoutOnDisallowedRoles) {
+            setDisallowedRoles(userDisallowedRoles);
+            onSignOut();
+            setResolved(true);
+            return false;
+          }
         }
 
         setAuth({
