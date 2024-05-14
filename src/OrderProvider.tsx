@@ -52,6 +52,7 @@ export default function OrderProvider(props: OrderProviderProps) {
           onOrdersUpdated,
           () => {
             setOrders({});
+            return Promise.resolve();
           },
           config.enableKDS,
           props.onWebsocketNotification,
