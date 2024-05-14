@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 incorrect language first kiosk start #104655
 
+## [2.5.1] - 2024-05-14
+- Fix (ordering-core)
+    - access token expiry checking
+    - refresh token expiry checking
+    - orders update callback on empty orders
+
 ## [2.5.0] - 2024-02-21
 - Features:
   - App Insights warning disallowed roles
