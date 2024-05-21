@@ -537,20 +537,142 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@orderingstack/ordering-core@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.npmjs.org/@orderingstack/ordering-core/-/ordering-core-1.3.1.tgz"
-  integrity sha512-zRDgB5atOIyPxau/1YsPFeypfWkkMY4DuLxlHgEaEBWqAv8xqEc/4pgIbfH+29fKgfOAwjYTacwVOUVLEmksTQ==
+"@microsoft/applicationinsights-analytics-js@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-analytics-js/-/applicationinsights-analytics-js-3.1.0.tgz#7700545f872dad2b56b6c1e4783f7e0a58d5e8bf"
+  integrity sha512-uKME14ZE2I809PY/i+f39TlDn9aWSCFDdOkfjc1B46g2YVlqqtVBI0fQoPPPLjuSj1DDUjuXJUfjQL2rB853uw==
+  dependencies:
+    "@microsoft/applicationinsights-common" "3.1.0"
+    "@microsoft/applicationinsights-core-js" "3.1.0"
+    "@microsoft/applicationinsights-shims" "3.0.1"
+    "@microsoft/dynamicproto-js" "^2.0.3"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
+
+"@microsoft/applicationinsights-cfgsync-js@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-cfgsync-js/-/applicationinsights-cfgsync-js-3.1.0.tgz#d243a31f990f8b735067cd768fa0307e54b7c1d9"
+  integrity sha512-85wjyjgcH3YouuKj1uweQGaKD30w6DBGHrs57IpBR388xshuEt/JPayMfuxUUQE0s8ySyEk8k+S8sDh1aLYAZw==
+  dependencies:
+    "@microsoft/applicationinsights-common" "3.1.0"
+    "@microsoft/applicationinsights-core-js" "3.1.0"
+    "@microsoft/applicationinsights-shims" "3.0.1"
+    "@microsoft/dynamicproto-js" "^2.0.3"
+    "@nevware21/ts-async" ">= 0.3.0 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
+
+"@microsoft/applicationinsights-channel-js@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-channel-js/-/applicationinsights-channel-js-3.1.0.tgz#3a6d32db4524804aee69f19bf501351aaf594dc7"
+  integrity sha512-VJUZT1FpQ5+XV3t4/AKprWiyH0gEEPDoJr6E8ZVopKoVVX/AjorkhPcZ4oDlpeEWpBeMxg+PeZOdTMKyY0atOw==
+  dependencies:
+    "@microsoft/applicationinsights-common" "3.1.0"
+    "@microsoft/applicationinsights-core-js" "3.1.0"
+    "@microsoft/applicationinsights-shims" "3.0.1"
+    "@microsoft/dynamicproto-js" "^2.0.3"
+    "@nevware21/ts-async" ">= 0.3.0 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
+
+"@microsoft/applicationinsights-common@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-common/-/applicationinsights-common-3.1.0.tgz#df265a8b1832975fa197ec6322bc24fd5f123665"
+  integrity sha512-PpWdCbTPsH5MSDIkHKaIBpEJcsnPcnAjlTCk+ls0DOfIB/T6bTn3TuKsDfSu/sxdLhDQiJeUXu8G3qOQ3L0nBA==
+  dependencies:
+    "@microsoft/applicationinsights-core-js" "3.1.0"
+    "@microsoft/applicationinsights-shims" "3.0.1"
+    "@microsoft/dynamicproto-js" "^2.0.3"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
+
+"@microsoft/applicationinsights-core-js@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-core-js/-/applicationinsights-core-js-3.1.0.tgz#f8ef9fe591044c3df4dce9f8f242c4fe8be1820c"
+  integrity sha512-pHaZ3CQx+KdfRV3yV/xuMEvIEJ1KxlK6klnFcuz4AMXOOPeuvWy1FsUIQ/sVA97TXEDl87LqV6QDnH99bLZpMg==
+  dependencies:
+    "@microsoft/applicationinsights-shims" "3.0.1"
+    "@microsoft/dynamicproto-js" "^2.0.3"
+    "@nevware21/ts-async" ">= 0.3.0 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
+
+"@microsoft/applicationinsights-dependencies-js@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-dependencies-js/-/applicationinsights-dependencies-js-3.1.0.tgz#2aad7ae284693fcb8326444103c46dd50247c8d0"
+  integrity sha512-CI1hJQ4goz71EWitRJLjU0Y+jD3boANmFDtlxCXnP5oVfNJkV5r/CZ6ufUNnNEO4EBG++bRg3PSlwBJ5mbZ14Q==
+  dependencies:
+    "@microsoft/applicationinsights-common" "3.1.0"
+    "@microsoft/applicationinsights-core-js" "3.1.0"
+    "@microsoft/applicationinsights-shims" "3.0.1"
+    "@microsoft/dynamicproto-js" "^2.0.3"
+    "@nevware21/ts-async" ">= 0.3.0 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
+
+"@microsoft/applicationinsights-properties-js@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-properties-js/-/applicationinsights-properties-js-3.1.0.tgz#4791565b7caf2d27fa36b4b909fd080f0d53b49f"
+  integrity sha512-ABDDiqZD4y1gcS+Ggj7gyuPLClO7q053s53eBpxoYlZzQ5D7qn/A9A2AOCRrih4pSc212rdzi8TqC2iu9IWLxA==
+  dependencies:
+    "@microsoft/applicationinsights-common" "3.1.0"
+    "@microsoft/applicationinsights-core-js" "3.1.0"
+    "@microsoft/applicationinsights-shims" "3.0.1"
+    "@microsoft/dynamicproto-js" "^2.0.3"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
+
+"@microsoft/applicationinsights-shims@3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-shims/-/applicationinsights-shims-3.0.1.tgz#3865b73ace8405b9c4618cc5c571f2fe3876f06f"
+  integrity sha512-DKwboF47H1nb33rSUfjqI6ryX29v+2QWcTrRvcQDA32AZr5Ilkr7whOOSsD1aBzwqX0RJEIP1Z81jfE3NBm/Lg==
+  dependencies:
+    "@nevware21/ts-utils" ">= 0.9.4 < 2.x"
+
+"@microsoft/applicationinsights-web@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/applicationinsights-web/-/applicationinsights-web-3.1.0.tgz#b8a1082497a1dbae5fe34ff16630271b0a3e1d2b"
+  integrity sha512-DfLiZNBZmIX8gaybvSxkecCKJpUvsL9BplhUb4ldJU7fq9h/lk5u+wJXny96Oy1jBbUpFKjBgfWjXjLb6owezw==
+  dependencies:
+    "@microsoft/applicationinsights-analytics-js" "3.1.0"
+    "@microsoft/applicationinsights-cfgsync-js" "3.1.0"
+    "@microsoft/applicationinsights-channel-js" "3.1.0"
+    "@microsoft/applicationinsights-common" "3.1.0"
+    "@microsoft/applicationinsights-core-js" "3.1.0"
+    "@microsoft/applicationinsights-dependencies-js" "3.1.0"
+    "@microsoft/applicationinsights-properties-js" "3.1.0"
+    "@microsoft/applicationinsights-shims" "3.0.1"
+    "@microsoft/dynamicproto-js" "^2.0.3"
+    "@nevware21/ts-async" ">= 0.3.0 < 2.x"
+    "@nevware21/ts-utils" ">= 0.10.5 < 2.x"
+
+"@microsoft/dynamicproto-js@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@microsoft/dynamicproto-js/-/dynamicproto-js-2.0.3.tgz#ae2b408061e3ff01a97078429fc768331e239256"
+  integrity sha512-JTWTU80rMy3mdxOjjpaiDQsTLZ6YSGGqsjURsY6AUQtIj0udlF/jYmhdLZu8693ZIC0T1IwYnFa0+QeiMnziBA==
+  dependencies:
+    "@nevware21/ts-utils" ">= 0.10.4 < 2.x"
+
+"@nevware21/ts-async@>= 0.3.0 < 2.x":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@nevware21/ts-async/-/ts-async-0.4.0.tgz#2a581f0dd436379ec9f448cfab9e5a6a4c349d11"
+  integrity sha512-dbV826TTehQIBIJjh8GDSbwn1Z6+cnkyNbRlpcpdBPH8mROD2zabIUKqWcw9WRdTjjUIm21K+OR4DXWlAyOVTQ==
+  dependencies:
+    "@nevware21/ts-utils" ">= 0.10.0 < 2.x"
+
+"@nevware21/ts-utils@>= 0.10.0 < 2.x", "@nevware21/ts-utils@>= 0.10.4 < 2.x", "@nevware21/ts-utils@>= 0.10.5 < 2.x", "@nevware21/ts-utils@>= 0.9.4 < 2.x":
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/@nevware21/ts-utils/-/ts-utils-0.10.5.tgz#2ec10c4b5d93db39136e8e11143e7feb311e47e0"
+  integrity sha512-+TEvP0+l/VBR5bJZoYFV+o6aQQ1O6y80uys5AVyyCKeWvrgWu/yNydqSBQNsk4BuEfkayg7R9+HCJRRRIvptTA==
+
+"@orderingstack/ordering-core@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@orderingstack/ordering-core/-/ordering-core-1.5.1.tgz#21164984ec8133bba6c487fedea181be82636398"
+  integrity sha512-FmUeEnZGBGiLuk+LopD9LYYEzyjDFr5tbPprHLOVpoJ/IKtxnXvTbE1615zCop0QMIln7JdjzZRsXcRhLvAUfw==
   dependencies:
     "@stomp/stompjs" "6.1.2"
-    axios "^1.0.0"
+    axios "^1.6.8"
+    jwt-decode "^4.0.0"
     text-encoding "^0.7.0"
     ws "^7.3.1"
 
-"@orderingstack/ordering-types@^1.16.0":
-  version "1.18.4"
-  resolved "https://registry.npmjs.org/@orderingstack/ordering-types/-/ordering-types-1.18.4.tgz"
-  integrity sha512-Mrw0DekcwcZ7U53PguWsw8QgS6G4HNQXD382GdK5Spe6QRx8u1AcEasfcUAVBgR1IG99M728NwspeRqxTzeeWQ==
+"@orderingstack/ordering-types@^1.24.1":
+  version "1.24.2"
+  resolved "https://registry.yarnpkg.com/@orderingstack/ordering-types/-/ordering-types-1.24.2.tgz#9acf85285e8fa86d4558edf974cf7434a456dc08"
+  integrity sha512-Tk/ewGIR1X6TvSwCZsST8asai/LnvzjIkYvooU++eoCd8oUR/muzFrqxKy65pSVXvVQdJpAKFOQMrHefgA6g7w==
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
@@ -747,12 +869,12 @@ asynckit@^0.4.0:
   resolved "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
-axios@^1.0.0:
-  version "1.6.7"
-  resolved "https://registry.npmjs.org/axios/-/axios-1.6.7.tgz"
-  integrity sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA==
+axios@^1.6.8:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.1.tgz#522145622a09dfaf49359837db9649ff245a35b9"
+  integrity sha512-+LV37nQcd1EpFalkXksWNBiA17NZ5m5/WspmHGmZmdx1qBOg/VNq/c4eRJiA9VQQHBOs+N0ZhhdU10h2TyNK7Q==
   dependencies:
-    follow-redirects "^1.15.4"
+    follow-redirects "^1.15.6"
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
@@ -1146,10 +1268,10 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-follow-redirects@^1.15.4:
-  version "1.15.5"
-  resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.5.tgz"
-  integrity sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==
+follow-redirects@^1.15.6:
+  version "1.15.6"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.6.tgz#7f815c0cda4249c74ff09e95ef97c23b5fd0399b"
+  integrity sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==
 
 form-data@^4.0.0:
   version "4.0.0"
@@ -1745,6 +1867,11 @@ json5@^2.2.3:
   version "2.2.3"
   resolved "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz"
   integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
+
+jwt-decode@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-4.0.0.tgz#2270352425fd413785b2faf11f6e755c5151bd4b"
+  integrity sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==
 
 kleur@^3.0.3:
   version "3.0.3"

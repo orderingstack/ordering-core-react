@@ -13,6 +13,7 @@ import AuthWrapper, {
 import OrderProvider from './OrderProvider';
 import SignIn from './SignIn';
 import SignOut from './SignOut';
+import { networkRefreshTokenHandler } from './refreshTokenHandler';
 
 export {
   IConfig,
@@ -30,4 +31,5 @@ export {
   ShowWhenAuthenticating,
   IAuthProps,
   IDeviceLoginState,
+  networkRefreshTokenHandler,
 };
