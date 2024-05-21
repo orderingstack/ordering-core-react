@@ -658,20 +658,21 @@
   resolved "https://registry.yarnpkg.com/@nevware21/ts-utils/-/ts-utils-0.10.5.tgz#2ec10c4b5d93db39136e8e11143e7feb311e47e0"
   integrity sha512-+TEvP0+l/VBR5bJZoYFV+o6aQQ1O6y80uys5AVyyCKeWvrgWu/yNydqSBQNsk4BuEfkayg7R9+HCJRRRIvptTA==
 
-"@orderingstack/ordering-core@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@orderingstack/ordering-core/-/ordering-core-1.4.0.tgz#7fcbf2d7148dc91794cad9e505a1f28e6d3b580c"
-  integrity sha512-juNkE5eYhAZsfcXvfa+xTfG9rEnILz73a6R1TsTYyq0YEanoHz7oZXJsCUijeGJTRPFKd37D2BeuqEwOXJKIBQ==
+"@orderingstack/ordering-core@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@orderingstack/ordering-core/-/ordering-core-1.5.1.tgz#21164984ec8133bba6c487fedea181be82636398"
+  integrity sha512-FmUeEnZGBGiLuk+LopD9LYYEzyjDFr5tbPprHLOVpoJ/IKtxnXvTbE1615zCop0QMIln7JdjzZRsXcRhLvAUfw==
   dependencies:
     "@stomp/stompjs" "6.1.2"
-    axios "^1.6.7"
+    axios "^1.6.8"
+    jwt-decode "^4.0.0"
     text-encoding "^0.7.0"
     ws "^7.3.1"
 
-"@orderingstack/ordering-types@^1.16.0":
-  version "1.18.4"
-  resolved "https://registry.npmjs.org/@orderingstack/ordering-types/-/ordering-types-1.18.4.tgz"
-  integrity sha512-Mrw0DekcwcZ7U53PguWsw8QgS6G4HNQXD382GdK5Spe6QRx8u1AcEasfcUAVBgR1IG99M728NwspeRqxTzeeWQ==
+"@orderingstack/ordering-types@^1.24.1":
+  version "1.24.2"
+  resolved "https://registry.yarnpkg.com/@orderingstack/ordering-types/-/ordering-types-1.24.2.tgz#9acf85285e8fa86d4558edf974cf7434a456dc08"
+  integrity sha512-Tk/ewGIR1X6TvSwCZsST8asai/LnvzjIkYvooU++eoCd8oUR/muzFrqxKy65pSVXvVQdJpAKFOQMrHefgA6g7w==
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
@@ -868,12 +869,12 @@ asynckit@^0.4.0:
   resolved "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
-axios@^1.6.7:
-  version "1.6.7"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.7.tgz#7b48c2e27c96f9c68a2f8f31e2ab19f59b06b0a7"
-  integrity sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA==
+axios@^1.6.8:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.1.tgz#522145622a09dfaf49359837db9649ff245a35b9"
+  integrity sha512-+LV37nQcd1EpFalkXksWNBiA17NZ5m5/WspmHGmZmdx1qBOg/VNq/c4eRJiA9VQQHBOs+N0ZhhdU10h2TyNK7Q==
   dependencies:
-    follow-redirects "^1.15.4"
+    follow-redirects "^1.15.6"
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
@@ -1267,10 +1268,10 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-follow-redirects@^1.15.4:
-  version "1.15.5"
-  resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.5.tgz"
-  integrity sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==
+follow-redirects@^1.15.6:
+  version "1.15.6"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.6.tgz#7f815c0cda4249c74ff09e95ef97c23b5fd0399b"
+  integrity sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==
 
 form-data@^4.0.0:
   version "4.0.0"
@@ -1866,6 +1867,11 @@ json5@^2.2.3:
   version "2.2.3"
   resolved "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz"
   integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
+
+jwt-decode@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-4.0.0.tgz#2270352425fd413785b2faf11f6e755c5151bd4b"
+  integrity sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==
 
 kleur@^3.0.3:
   version "3.0.3"

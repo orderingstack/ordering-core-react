@@ -1,6 +1,6 @@
 {
   "name": "@orderingstack/ordering-core-react",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Ordering Stack client core react library",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
