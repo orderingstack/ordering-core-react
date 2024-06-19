@@ -14,6 +14,7 @@ import {
   ISteeringCommand,
 } from '@orderingstack/ordering-types';
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import { IOrderRec } from '@orderingstack/ordering-core';
 
 export interface OrderProviderProps {
   children: ReactNode;
@@ -21,6 +22,7 @@ export interface OrderProviderProps {
   onSteeringCommand?: (command: ISteeringCommand) => void;
   appInsights?: ApplicationInsights;
   debugWs?: boolean;
+  onlyCompletedOrdersForUser?: boolean;
 }
 
 export default function OrderProvider(props: OrderProviderProps) {
@@ -30,12 +32,23 @@ export default function OrderProvider(props: OrderProviderProps) {
   }
   const config: IConfig = _configContext;
 
-  const [orders, setOrders] = useState<any>({});
+  const [orders, setOrders] = useState<{
+    orderRecMap: Record<string, IOrderRec>;
+    loaded: boolean;
+    error?: any;
+  }>({ orderRecMap: {}, loaded: false });
   const { authProvider, loggedIn } = useContext(AuthContext);
 
-  const onOrdersUpdated = (order: any, allOrders: any) => {
+  const onOrdersUpdated = (
+    order: IOrderRec | undefined,
+    allOrders: Record<string, IOrderRec>,
+  ) => {
     //console.log("--------------" + Object.keys(allOrders).length);
-    setOrders({ ...allOrders });
+    setOrders({
+      orderRecMap: { ...allOrders },
+      loaded: true,
+      error: undefined,
+    });
   };
 
   async function setOrderChangesListener(
@@ -54,24 +67,33 @@ export default function OrderProvider(props: OrderProviderProps) {
           authProvider,
           onOrdersUpdated,
           () => {
-            setOrders({});
+            setOrders({
+              orderRecMap: {},
+              loaded: false,
+              error: new Error('auth failure'),
+            });
+            return Promise.resolve();
             return Promise.resolve();
           },
           config.enableKDS,
           props.onWebsocketNotification,
           props.onSteeringCommand,
-          { appInsights: props.appInsights, debugWs: props.debugWs },
+          {
+            appInsights: props.appInsights,
+            debugWs: props.debugWs,
+            onlyCompletedOrdersForUser: props.onlyCompletedOrdersForUser,
+          },
         );
       }
     } catch (err) {
-      setOrders({});
+      setOrders({ orderRecMap: {}, loaded: false, error: err });
     }
     return disconnect;
   }
 
   useEffect(() => {
     orderingCore.setOrderStoreUpdatedCallback(onOrdersUpdated);
-    const promise = setOrderChangesListener(authProvider);
+    const promise = setOrderChangesListener(authProvider!);
     return () => {
       promise.then((disconnect) => disconnect());
     };
