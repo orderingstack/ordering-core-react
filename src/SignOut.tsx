@@ -1,9 +1,7 @@
-import React, { useContext } from "react"
-import AuthContext from "./AuthContext";
+import React, { useContext } from 'react';
+import AuthContext from './AuthContext';
 
-export default function SignOut(props:any) {
-    const { signOut } = useContext(AuthContext);
-    return (
-        <button onClick={signOut}>Logout</button>
-    )
+export default function SignOut(props: any) {
+  const { signOut } = useContext(AuthContext);
+  return <button onClick={() => signOut?.()}>Logout</button>;
 }

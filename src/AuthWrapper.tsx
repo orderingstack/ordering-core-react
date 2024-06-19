@@ -13,8 +13,15 @@ import axios from 'axios';
 import { getErrorMessage } from './utils';
 import { QRCodeSVG } from 'qrcode.react';
 import { FadeLoader } from 'react-spinners';
-const COUNTDOWN = 10;
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import {
+  AuthWrapperStateStruct,
+  IAuthPending,
+  IDeviceCodeResponse,
+  ISlowDown,
+  ISuccessData,
+} from './types';
+import { jwtDecode } from 'jwt-decode';
 
 function Loader() {
   return <FadeLoader />;
@@ -53,41 +60,54 @@ const _refreshStorageHandler: orderingCore.IRefreshTokenStorageHandler = {
   },
 };
 
-function DefaultDeviceCodeComp(props: IDeviceLoginState) {
-  const {
-    code,
-    error,
-    countDown,
-    tenant,
-    baseUrl,
-    user,
-    loading,
-    codeTimestamp,
-  } = props;
-  const qrCode = useMemo(() => {
-    let qrCode = code
-      ? `${baseUrl}/user-service/device-code/${tenant}?code=${code}`
-      : undefined;
-    if (user && qrCode) {
-      qrCode = qrCode + `&deviceUser=${user}`;
+async function getModuleConfig(baseUrl: string, accessToken: string) {
+  try {
+    const tokenData = jwtDecode<{
+      MODULE?: string;
+      iss: string;
+      exp: number;
+      UUID: string;
+      TENANT: string;
+      jti: string;
+      authorities: string[];
+    }>(accessToken);
+    if (tokenData.MODULE) {
+      const { data } = await axios.get(
+        `${baseUrl}/auth-api/api/module-config`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+      return data;
     }
-    return qrCode;
-  }, [code, baseUrl, user]);
+  } catch (e) {
+    console.warn('JWT decode failed', e);
+    return undefined;
+  }
+}
+
+function DefaultDeviceCodeComp(props: IDeviceLoginState) {
+  const { error, loading, data } = props;
+  const qrCode = data?.verification_uri_complete;
+  const code = data?.user_code;
 
   const size = Math.round(Math.min(window.innerHeight, window.innerWidth) / 3);
   const [seconds, setSeconds] = useState<number>(0);
 
   useEffect(() => {
-    if (code && codeTimestamp) {
+    if (data?.exp) {
       const timer = setInterval(
-        () => setSeconds(Math.round((Date.now() - codeTimestamp) / 1000)),
+        () =>
+          setSeconds(Math.max(Math.round((data.exp - Date.now()) / 1000), 0)),
         1000,
       );
       return () => clearInterval(timer);
     } else {
       setSeconds(0);
     }
-  }, [code, codeTimestamp]);
+  }, [data]);
 
   return (
     <div
@@ -123,24 +143,26 @@ function DefaultDeviceCodeComp(props: IDeviceLoginState) {
             )}
           </h1>
         )}
-        {code && <h4>Refreshed: {seconds}s ago</h4>}
+        {code && <h4>Waiting for authorization {seconds}s</h4>}
         {qrCode && !loading && (
-          <QRCodeSVG value={qrCode} size={size} level="H" />
+          <button
+            onClick={() =>
+              window.open(qrCode, '_blank', 'popup,width=450,height=500')
+            }
+            style={{
+              backgroundColor: 'unset',
+              border: 'unset',
+              cursor: 'pointer',
+            }}
+          >
+            <QRCodeSVG value={qrCode} size={size} level="H" />
+          </button>
         )}
         {loading && <QRLoader size={size} />}
         {error && <h1 style={{ color: 'red' }}>Error: {error}</h1>}
-        {countDown && <h1>Automatically restarting in {countDown} seconds</h1>}
       </div>
     </div>
   );
-}
-
-interface AuthWrapperStateStruct {
-  loggedIn: boolean;
-  UUID: string;
-  email?: string;
-  authProvider?: orderingCore.IConfiguredAuthDataProvider;
-  signOut?: Function;
 }
 
 export interface IAuthProps {
@@ -156,14 +178,11 @@ export interface IAuthProps {
 
 export interface IDeviceLoginState {
   isDeviceCode: boolean;
-  code?: string;
-  secret?: string;
+  data?: IDeviceCodeResponse & { exp: number };
   error?: string;
-  countDown?: number;
   tenant: string;
   baseUrl: string;
   user?: string | null;
-  codeTimestamp?: number;
   loading?: boolean;
 }
 type Action =
@@ -172,25 +191,21 @@ type Action =
   | { type: 'disable'; payload?: undefined }
   | {
       type: 'setValues';
-      payload: { code: string; secret: string; user?: string | null };
+      payload: IDeviceCodeResponse & { exp: number };
     }
   | { type: 'error'; payload: string }
   | { type: 'decrementCountDown'; payload?: undefined };
 
-function isSuccess(data: any): data is SuccessData {
-  return !data.error;
+function isSuccess(data: any): data is ISuccessData {
+  return !data?.error && !!data?.refresh_token;
 }
 
-interface SuccessData {
-  token_type: string;
-  expires_in: number;
-  access_token: string;
-  refresh_token: string;
-  TENANT: string;
-  UUID: string;
+function isPendingAuth(data: any): data is IAuthPending {
+  return data?.error === 'authorization_pending';
 }
-interface ErrorData {
-  error: string;
+
+function isSlowDown(data: any): data is ISlowDown {
+  return data?.error === 'slow_down';
 }
 
 function deviceLoginReducer(
@@ -213,24 +228,14 @@ function deviceLoginReducer(
     case 'setValues':
       return {
         ...state,
-        code: payload.code,
-        secret: payload.secret,
-        user: payload.user,
+        data: payload,
         error: undefined,
-        countDown: undefined,
-        codeTimestamp: Date.now(),
         loading: false,
       };
     case 'error':
       return {
         ...state,
         error: payload,
-        countDown: COUNTDOWN,
-      };
-    case 'decrementCountDown':
-      return {
-        ...state,
-        countDown: (state.countDown || COUNTDOWN) - 1,
       };
     case 'disable':
       return {
@@ -354,6 +359,7 @@ export default function AuthWrapper(props: IAuthProps) {
             return false;
           }
         }
+        const moduleConfig = await getModuleConfig(config.baseUrl, token);
 
         setAuth({
           loggedIn: true,
@@ -361,6 +367,7 @@ export default function AuthWrapper(props: IAuthProps) {
           UUID: UUID,
           authProvider: authProvider,
           signOut: onSignOut,
+          moduleConfig,
         });
         haveToken = true;
       }
@@ -372,57 +379,72 @@ export default function AuthWrapper(props: IAuthProps) {
   }
 
   async function deviceCodeLogin(
-    authProvider: orderingCore.IConfiguredAuthDataProvider,
     moduleId: string,
+    abortController: AbortController,
   ) {
     dispatch({ type: 'enable' });
-    while (true) {
+    while (!abortController.signal.aborted) {
       try {
         dispatch({ type: 'loading' });
         // Get code
-        const {
-          data: { code, secret, user },
-        } = await api.get<{
-          code: string;
-          secret: string;
-          module: string;
-          user: string | null;
-          verifyUri: string;
-        }>('/auth-oauth2/device/code', {
-          params: {
-            module: moduleId,
-            tenant,
-          },
-        });
-        dispatch({ type: 'setValues', payload: { code, secret, user } });
-
-        // Await code verification, timeout or error
-        const { data } = await api.post<SuccessData | ErrorData>(
-          '/auth-oauth2/device/code',
+        const { data: resData } = await api.post<IDeviceCodeResponse>(
+          '/auth-oauth2/oauth/device',
+          { module: moduleId },
           {
-            code,
-            secret,
-            tenant,
+            headers: {
+              Accept: 'application/json',
+              'X-Tenant': tenant,
+              'Content-Type': 'application/x-www-form-urlencoded',
+              Authorization: `Basic ${config.basicAuth}`,
+            },
           },
         );
-        if (!isSuccess(data)) {
-          dispatch({ type: 'error', payload: data.error });
-        } else {
-          await refreshStorageHandler.setRefreshToken(
-            data.TENANT,
-            data.refresh_token,
+        const exp = Date.now() + resData.expires_in * 1000;
+        dispatch({ type: 'setValues', payload: { ...resData, exp } });
+
+        let success = false;
+        while (!abortController.signal.aborted && Date.now() < exp - 2000) {
+          const { data: tokenData } = await api.post<
+            ISuccessData | IAuthPending | ISlowDown
+          >(
+            '/auth-oauth2/oauth/token',
+            {
+              device_code: resData.device_code,
+              grant_type: 'urn:ietf:params:oauth:grant-type:device_code',
+            },
+            {
+              headers: {
+                Accept: 'application/json',
+                'X-Tenant': tenant,
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Authorization: `Basic ${config.basicAuth}`,
+              },
+              validateStatus: (status) => status < 500,
+            },
           );
+          if (!isSuccess(tokenData)) {
+            await new Promise((resolve) =>
+              setTimeout(resolve, resData.interval * 1000),
+            );
+          } else {
+            await refreshStorageHandler.setRefreshToken(
+              tenant,
+              tokenData.refresh_token,
+            );
+            success = true;
+            // TODO get module config
+            break;
+          }
+        }
+        if (success) {
           break;
         }
       } catch (e: any) {
         const message = getErrorMessage(e);
         if (message) {
           dispatch({ type: 'error', payload: message });
-          for (let i = 0; i < COUNTDOWN - 1; i += 1) {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            dispatch({ type: 'decrementCountDown' });
-          }
         }
+        await new Promise((resolve) => setTimeout(resolve, 10000));
         console.warn(e);
         // continue loop
       }
@@ -431,6 +453,10 @@ export default function AuthWrapper(props: IAuthProps) {
   }
 
   useEffect(() => {
+    if (auth.loggedIn) {
+      return;
+    }
+    const abortController = new AbortController();
     async function init() {
       //console.log("AutWrapper init --- ");
       const authProvider: orderingCore.IConfiguredAuthDataProvider =
@@ -447,12 +473,9 @@ export default function AuthWrapper(props: IAuthProps) {
 
       const params = new URLSearchParams(window.location.search);
       const moduleId = params.get('module');
-      const isDeviceCodeMode =
-        !!moduleId && params.get('deviceCode') === 'true';
       const { token } = await authProvider();
-
-      if (isDeviceCodeMode && !token) {
-        await deviceCodeLogin(authProvider, moduleId);
+      if (moduleId && !token) {
+        await deviceCodeLogin(moduleId, abortController);
       }
 
       // Check for refreshToken in search params
@@ -472,7 +495,7 @@ export default function AuthWrapper(props: IAuthProps) {
         console.warn(e);
       }
 
-      getUserData(config.baseUrl, authProvider, setAuth);
+      void getUserData(config.baseUrl, authProvider, setAuth);
 
       window.addEventListener('message', function (event) {
         if (event.origin !== config.baseUrl) return;
@@ -501,8 +524,9 @@ export default function AuthWrapper(props: IAuthProps) {
         }
       });
     }
-    init();
-  }, []);
+    void init();
+    return () => abortController.abort();
+  }, [auth?.loggedIn]);
 
   if (state.isDeviceCode) {
     const DeviceCodeComp = props.DeviceCodeComp || DefaultDeviceCodeComp;
