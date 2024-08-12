@@ -1,4 +1,5 @@
 import React from 'react';
 import { AuthWrapperStateStruct } from './types';
 
-export default React.createContext<Partial<AuthWrapperStateStruct>>({});
+// @ts-ignore
+export default React.createContext<AuthWrapperStateStruct>({});

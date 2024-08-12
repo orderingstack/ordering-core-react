@@ -16,6 +16,9 @@ export function getErrorMessage(e: any): string | undefined {
     if (e.response?.data.error) {
       return e.response.data.error;
     }
+    if (e.response?.data.description) {
+      return e.response.data.description;
+    }
   }
   return e.toString();
 }

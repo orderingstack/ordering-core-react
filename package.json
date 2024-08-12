@@ -1,6 +1,6 @@
 {
   "name": "@orderingstack/ordering-core-react",
-  "version": "3.1.0",
+  "version": "3.1.0-beta.2",
   "description": "Ordering Stack client core react library",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -17,7 +17,7 @@
   "author": "kolec",
   "license": "Ordering Stack license",
   "dependencies": {
-    "@orderingstack/ordering-core": "^1.6.0",
+    "@orderingstack/ordering-core": "^1.6.1",
     "@orderingstack/ordering-types": "^1.24.1",
     "jwt-decode": "^4.0.0",
     "qrcode.react": "^3.1.0",

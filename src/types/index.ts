@@ -27,8 +27,8 @@ export interface AuthWrapperStateStruct {
   loggedIn: boolean;
   UUID: string;
   email?: string;
-  authProvider?: orderingCore.IConfiguredAuthDataProvider;
-  signOut?: Function;
+  authProvider: orderingCore.IConfiguredAuthDataProvider;
+  signOut: Function;
   moduleConfig?: any;
   resolved?: boolean;
 }

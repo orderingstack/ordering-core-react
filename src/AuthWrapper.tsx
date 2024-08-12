@@ -295,6 +295,8 @@ export default function AuthWrapper(props: IAuthProps) {
   const [auth, setAuth] = useState<AuthWrapperStateStruct>({
     loggedIn: false,
     UUID: '',
+    authProvider: () => Promise.resolve({ token: '', UUID: '' }),
+    signOut: onSignOut,
   });
 
   const [resolved, setResolved] = useState<boolean>(false);
@@ -307,7 +309,12 @@ export default function AuthWrapper(props: IAuthProps) {
 
   function onSignOut() {
     console.log('--- log out ----');
-    setAuth({ loggedIn: false, UUID: '' });
+    setAuth({
+      loggedIn: false,
+      UUID: '',
+      authProvider: () => Promise.resolve({ token: '', UUID: '' }),
+      signOut: onSignOut,
+    });
     setResolved(true);
     orderingCore.clearAuthData(config.tenant, refreshStorageHandler);
   }
@@ -432,7 +439,6 @@ export default function AuthWrapper(props: IAuthProps) {
               tokenData.refresh_token,
             );
             success = true;
-            // TODO get module config
             break;
           }
         }
@@ -502,7 +508,12 @@ export default function AuthWrapper(props: IAuthProps) {
         const authData = event.data;
         console.log(authData);
         if (authData.UUID === '') {
-          setAuth({ loggedIn: false, UUID: '' });
+          setAuth({
+            loggedIn: false,
+            UUID: '',
+            authProvider: authProvider,
+            signOut: onSignOut,
+          });
         } else {
           orderingCore.setAuthData(
             config.tenant,

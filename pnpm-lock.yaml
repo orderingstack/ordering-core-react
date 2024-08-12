@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@orderingstack/ordering-core':
-        specifier: ^1.6.0
-        version: 1.6.0
+        specifier: ^1.6.1
+        version: 1.6.1
       '@orderingstack/ordering-types':
         specifier: ^1.24.1
         version: 1.26.1
@@ -388,8 +388,8 @@ packages:
   '@nevware21/ts-utils@0.11.2':
     resolution: {integrity: sha512-80W8BkS09kkGuUHJX50Fqq+QqAslxUaOQytH+3JhRacXs1EpEt2JOOkYKytqFZAYir3SeH9fahniEaDzIBxlUw==}
 
-  '@orderingstack/ordering-core@1.6.0':
-    resolution: {integrity: sha512-PbjlPiBQEeilQLtCGni/LO1kd0A51Wkk4T8pzGvxU0Ly8aQD3iasr7W87/XEMRMDPztexaKr/FPL/oO/2YgpQg==}
+  '@orderingstack/ordering-core@1.6.1':
+    resolution: {integrity: sha512-MoCA09d3Z+oDqlNA1DQOc1kNbF06ynEXaGOuP2bbXbgUc39wd7WEOj6+OVInYj+cLFsOJxR2+Ldc/+W0J858hw==}
 
   '@orderingstack/ordering-types@1.26.1':
     resolution: {integrity: sha512-skEy7HUWVfR5dWKy+B+mmxQZIXrN0bQcL9nAnFqgC5lzRWCehYCYfnEdNhCVptRT7yNvfJfz4MD3C6hnxKwVnA==}
@@ -1416,8 +1416,8 @@ packages:
     resolution: {integrity: sha512-7KxauUdBmSdWnmpaGFg+ppNjKF8uNLry8LyzjauQDOVONfFLNKrKvQOxZ/VuTIcS/gge/YNahf5RIIQWTSarlg==}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
 
-  ws@7.5.9:
-    resolution: {integrity: sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==}
+  ws@7.5.10:
+    resolution: {integrity: sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==}
     engines: {node: '>=8.3.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -1956,13 +1956,13 @@ snapshots:
 
   '@nevware21/ts-utils@0.11.2': {}
 
-  '@orderingstack/ordering-core@1.6.0':
+  '@orderingstack/ordering-core@1.6.1':
     dependencies:
       '@stomp/stompjs': 6.1.2
       axios: 1.7.2
       jwt-decode: 4.0.0
       text-encoding: 0.7.0
-      ws: 7.5.9
+      ws: 7.5.10
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -3100,7 +3100,7 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
 
-  ws@7.5.9: {}
+  ws@7.5.10: {}
 
   y18n@5.0.8: {}
 
