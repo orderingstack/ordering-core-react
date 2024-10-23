@@ -9,11 +9,14 @@ importers:
   .:
     dependencies:
       '@orderingstack/ordering-core':
-        specifier: ^1.6.1
-        version: 1.6.1
+        specifier: ^1.7.0-beta.0
+        version: 1.7.0-beta.0
       '@orderingstack/ordering-types':
-        specifier: ^1.24.1
-        version: 1.26.1
+        specifier: ^1.27.0
+        version: 1.27.0
+      abortcontroller-polyfill:
+        specifier: ^1.7.5
+        version: 1.7.5
       axios:
         specifier: '>=0.21.1'
         version: 1.7.2
@@ -54,6 +57,9 @@ importers:
       prettier:
         specifier: ^3.2.5
         version: 3.3.2
+      shx:
+        specifier: ^0.3.4
+        version: 0.3.4
       ts-jest:
         specifier: ^29.1.4
         version: 29.1.4(@babel/core@7.24.7)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.24.7))(jest@29.7.0(@types/node@20.14.2)(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.4.5)))(typescript@5.4.5)
@@ -388,11 +394,11 @@ packages:
   '@nevware21/ts-utils@0.11.2':
     resolution: {integrity: sha512-80W8BkS09kkGuUHJX50Fqq+QqAslxUaOQytH+3JhRacXs1EpEt2JOOkYKytqFZAYir3SeH9fahniEaDzIBxlUw==}
 
-  '@orderingstack/ordering-core@1.6.1':
-    resolution: {integrity: sha512-MoCA09d3Z+oDqlNA1DQOc1kNbF06ynEXaGOuP2bbXbgUc39wd7WEOj6+OVInYj+cLFsOJxR2+Ldc/+W0J858hw==}
+  '@orderingstack/ordering-core@1.7.0-beta.0':
+    resolution: {integrity: sha512-w0ViOAG183KiMQjChpwlFrH4GKV54BiZ2QLT88OJwFBYaE6K25WBIZB2dUt2GTgvkdKt1QDRQcfB7fkdQtn3LQ==}
 
-  '@orderingstack/ordering-types@1.26.1':
-    resolution: {integrity: sha512-skEy7HUWVfR5dWKy+B+mmxQZIXrN0bQcL9nAnFqgC5lzRWCehYCYfnEdNhCVptRT7yNvfJfz4MD3C6hnxKwVnA==}
+  '@orderingstack/ordering-types@1.27.0':
+    resolution: {integrity: sha512-Ce2BDWq+6EWJSEq2e5MdikTYR1mcdeykXLceVU7X4wyFMMWs2JIhWdACuUZIE3c7+S7rfdLja6rGpmL0g/WqvA==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -468,6 +474,9 @@ packages:
 
   '@types/yargs@17.0.32':
     resolution: {integrity: sha512-xQ67Yc/laOG5uMfX/093MRlGGCIBzZMarVa+gfNKJxWAIgykYpVGkBdbqEzGDDfCrVUj6Hiff4mTZ5BA6TmAog==}
+
+  abortcontroller-polyfill@1.7.5:
+    resolution: {integrity: sha512-JMJ5soJWP18htbbxJjG7bG6yuI6pRhgJ0scHHTfkUjf6wjP912xZWvM+A4sJK3gqd9E8fcPbDnOefbA9Th/FIQ==}
 
   acorn-walk@8.3.2:
     resolution: {integrity: sha512-cjkyv4OtNCIeqhHrfS81QWXoCBPExR/J62oyEqepVw8WaQeSqpW2uhuLPh1m9eWhDuOo/jUXVTlifvesOWp/4A==}
@@ -714,6 +723,10 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
+  events@3.3.0:
+    resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
+    engines: {node: '>=0.8.x'}
+
   execa@5.1.1:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
     engines: {node: '>=10'}
@@ -825,6 +838,10 @@ packages:
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
+
+  interpret@1.4.0:
+    resolution: {integrity: sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==}
+    engines: {node: '>= 0.10'}
 
   is-arrayish@0.2.1:
     resolution: {integrity: sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==}
@@ -1085,6 +1102,9 @@ packages:
   minimatch@3.1.2:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
 
+  minimist@1.2.8:
+    resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
+
   ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
 
@@ -1204,6 +1224,10 @@ packages:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
 
+  rechoir@0.6.2:
+    resolution: {integrity: sha512-HFM8rkZ+i3zrV+4LQjwQ0W+ez98pApMGM3HUrN04j3CqzPOzl9nmP15Y8YXNm8QHGv/eacOVEjqhmWpkRV0NAw==}
+    engines: {node: '>= 0.10'}
+
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -1243,6 +1267,16 @@ packages:
   shebang-regex@3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
+
+  shelljs@0.8.5:
+    resolution: {integrity: sha512-TiwcRcrkhHvbrZbnRcFYMLl30Dfov3HKqzp5tO5b4pt6G/SezKcYhmDg15zXVBswHmctSAQKznqNW2LO5tTDow==}
+    engines: {node: '>=4'}
+    hasBin: true
+
+  shx@0.3.4:
+    resolution: {integrity: sha512-N6A9MLVqjxZYcVn8hLmtneQWIJtp8IKzMP4eMnx+nqkvXoqinUPCbUFLp2UcWTEIUONhlk0ewxr/jaVGlc+J+g==}
+    engines: {node: '>=6'}
+    hasBin: true
 
   signal-exit@3.0.7:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
@@ -1956,11 +1990,12 @@ snapshots:
 
   '@nevware21/ts-utils@0.11.2': {}
 
-  '@orderingstack/ordering-core@1.6.1':
+  '@orderingstack/ordering-core@1.7.0-beta.0':
     dependencies:
       '@stomp/stompjs': 6.1.2
       axios: 1.7.2
       jwt-decode: 4.0.0
+      my-events: events@3.3.0
       text-encoding: 0.7.0
       ws: 7.5.10
     transitivePeerDependencies:
@@ -1968,7 +2003,7 @@ snapshots:
       - debug
       - utf-8-validate
 
-  '@orderingstack/ordering-types@1.26.1': {}
+  '@orderingstack/ordering-types@1.27.0': {}
 
   '@sinclair/typebox@0.27.8': {}
 
@@ -2055,6 +2090,8 @@ snapshots:
   '@types/yargs@17.0.32':
     dependencies:
       '@types/yargs-parser': 21.0.3
+
+  abortcontroller-polyfill@1.7.5: {}
 
   acorn-walk@8.3.2: {}
 
@@ -2291,6 +2328,8 @@ snapshots:
 
   esprima@4.0.1: {}
 
+  events@3.3.0: {}
+
   execa@5.1.1:
     dependencies:
       cross-spawn: 7.0.3
@@ -2389,6 +2428,8 @@ snapshots:
       wrappy: 1.0.2
 
   inherits@2.0.4: {}
+
+  interpret@1.4.0: {}
 
   is-arrayish@0.2.1: {}
 
@@ -2820,6 +2861,8 @@ snapshots:
     dependencies:
       brace-expansion: 1.1.11
 
+  minimist@1.2.8: {}
+
   ms@2.1.2: {}
 
   natural-compare@1.4.0: {}
@@ -2919,6 +2962,10 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
 
+  rechoir@0.6.2:
+    dependencies:
+      resolve: 1.22.8
+
   require-directory@2.1.1: {}
 
   resolve-cwd@3.0.0:
@@ -2948,6 +2995,17 @@ snapshots:
       shebang-regex: 3.0.0
 
   shebang-regex@3.0.0: {}
+
+  shelljs@0.8.5:
+    dependencies:
+      glob: 7.2.3
+      interpret: 1.4.0
+      rechoir: 0.6.2
+
+  shx@0.3.4:
+    dependencies:
+      minimist: 1.2.8
+      shelljs: 0.8.5
 
   signal-exit@3.0.7: {}
 

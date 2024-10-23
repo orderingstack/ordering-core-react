@@ -1,6 +1,6 @@
 {
   "name": "@orderingstack/ordering-core-react",
-  "version": "3.1.0-beta.2",
+  "version": "3.1.0-beta.12",
   "description": "Ordering Stack client core react library",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -8,17 +8,18 @@
   "files": [
     "lib/"
   ],
-  "packageManager": "pnpm@9.3.0",
+  "packageManager": "pnpm@9.11.0",
   "scripts": {
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+    "build": "shx rm -rf ./lib && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && shx cp -r ./src/assets ./lib/esm/assets && shx cp -r ./src/assets ./lib/cjs/assets",
     "test": "jest",
     "prepublishOnly": "npm run build"
   },
   "author": "kolec",
   "license": "Ordering Stack license",
   "dependencies": {
-    "@orderingstack/ordering-core": "^1.6.1",
-    "@orderingstack/ordering-types": "^1.24.1",
+    "@orderingstack/ordering-core": "^1.7.0-beta.0",
+    "@orderingstack/ordering-types": "^1.27.0",
+    "abortcontroller-polyfill": "^1.7.5",
     "jwt-decode": "^4.0.0",
     "qrcode.react": "^3.1.0",
     "react-spinners": "^0.13.8"
@@ -36,6 +37,7 @@
     "@types/react-dom": "^17.0.0",
     "jest": "^29.7.0",
     "prettier": "^3.2.5",
+    "shx": "^0.3.4",
     "ts-jest": "^29.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2"

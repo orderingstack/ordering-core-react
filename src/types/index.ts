@@ -1,4 +1,5 @@
 import * as orderingCore from '@orderingstack/ordering-core';
+import { IModule } from '@orderingstack/ordering-types';
 
 export interface IDeviceCodeResponse {
   user_code: string;
@@ -10,6 +11,9 @@ export interface IDeviceCodeResponse {
 }
 
 export interface ISuccessData {
+  TENANT: string;
+  UUID: string;
+  TRUST?: 'F' | 'T';
   access_token: string;
   refresh_token: string;
   token_type: string;
@@ -29,6 +33,6 @@ export interface AuthWrapperStateStruct {
   email?: string;
   authProvider: orderingCore.IConfiguredAuthDataProvider;
   signOut: Function;
-  moduleConfig?: any;
+  module?: IModule;
   resolved?: boolean;
 }

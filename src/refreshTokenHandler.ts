@@ -53,7 +53,7 @@ export const networkRefreshTokenHandler: IRefreshTokenStorageHandler = {
         return;
       })
       .catch((err) => {
-        console.error('error removing refresh token', err);
+        console.error('error removing refresh token', err.message, err);
         return;
       });
   },

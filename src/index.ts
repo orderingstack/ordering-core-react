@@ -14,6 +14,8 @@ import OrderProvider from './OrderProvider';
 import SignIn from './SignIn';
 import SignOut from './SignOut';
 import { networkRefreshTokenHandler } from './refreshTokenHandler';
+export { getErrorMessage } from './utils';
+export { useModule, ModuleConfig } from './ModuleContext';
 
 export {
   IConfig,

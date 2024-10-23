@@ -73,7 +73,6 @@ export default function OrderProvider(props: OrderProviderProps) {
               error: new Error('auth failure'),
             });
             return Promise.resolve();
-            return Promise.resolve();
           },
           config.enableKDS,
           props.onWebsocketNotification,
